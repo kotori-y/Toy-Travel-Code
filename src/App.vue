@@ -1,17 +1,26 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <transition :name="transitionName">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      transitionName: ""
+    }
+  },
+  watch: {
+    $route(to, from) {
+      this.transitionName = to.meta.index > from.meta.index
+          ? "pageIn"
+          : "pageOut"
+    }
   }
 }
 </script>
@@ -22,7 +31,62 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  margin: 0;
+  height: 100%;
+  position: relative;
 }
+
+@keyframes pageInAnime {
+  0% {
+    transform: translateY(100vh);
+  }
+
+  25% {
+    transform: translateY(75vh);
+  }
+
+  50% {
+    transform: translateY(50vh);
+  }
+
+  75% {
+    transform: translateY(25vh);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes pageOutAnime {
+  0% {
+    transform: translateY(0);
+  }
+
+  25% {
+    transform: translateY(25vh);
+  }
+
+  50% {
+    transform: translateY(50vh);
+  }
+
+  75% {
+    transform: translateY(75vh);
+  }
+
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+.pageIn-enter-active {
+  animation: pageInAnime 300ms linear;
+}
+
+
+.pageOut-enter-active {
+  animation: pageOutAnime 150ms linear;
+}
+
 </style>
