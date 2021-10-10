@@ -18,7 +18,7 @@ export default {
   name: "Home.vue",
   components: {Foot, Support, Notice, TravelIndex, MainTitle},
   beforeCreate () {
-    document.querySelector('body').setAttribute('style', 'background:rgb(60, 173, 96);')
+    document.querySelector('body').setAttribute('style', 'background: #3CAD60')
   },
   beforeDestroy () {
     document.querySelector('body').setAttribute('style', 'background: #e3e1e1;')

@@ -5,7 +5,7 @@
     </router-link>
 
     <div class="sub-main-title">
-      <p>{{ mainTitle }}</p>
+      <p class="mainTitle">{{ mainTitle }}</p>
     </div>
   </div>
 
@@ -26,7 +26,7 @@ export default {
 <style scoped>
 
 .sub-main-title {
-  height: 6vh;
+  height: 11vh;
   background: #e3e1e1;
   width: 100%;
   font-size: 2vh;
@@ -38,9 +38,15 @@ export default {
 .back {
   z-index: 3;
   position: fixed;
-  top: 1.9vh;
-  left: 2vw;
+  top: 7.5vh;
+  left: 2.3vw;
   height: 2.5vh;
+}
+
+.mainTitle {
+  top: 5vh;
+  position: absolute;
+  left: 41.3vw;
 }
 
 </style>

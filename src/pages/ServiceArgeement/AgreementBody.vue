@@ -57,6 +57,7 @@ export default {
   width: 100vw;
   height: 100vh;
   position: absolute;
+  top: 5vh;
 }
 
 .agreement-body {

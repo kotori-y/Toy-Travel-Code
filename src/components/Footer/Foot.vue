@@ -25,7 +25,7 @@ export default {
 .foot {
   position: absolute;
   width: 100%;
-  top: 72vh;
+  top: 76vh;
   color: white;
   font-size: 1.6vh;
   font-weight: bolder;
@@ -34,6 +34,7 @@ export default {
 a {
   text-decoration: none;
   color: white;
+  -webkit-tap-highlight-color: transparent;
 }
 
 </style>

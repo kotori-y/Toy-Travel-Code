@@ -21,7 +21,7 @@ export default {
 
 .support {
   position: absolute;
-  top: 63.5vh;
+  top: 67.5vh;
   width: 100%;
   display: flex;
 }

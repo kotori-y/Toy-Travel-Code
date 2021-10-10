@@ -16,7 +16,7 @@ export default {
 
 .container {
   position: absolute;
-  top: 15vh;
+  top: 20vh;
   width: 100%;
 }
 
