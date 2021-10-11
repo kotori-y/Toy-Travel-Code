@@ -12,12 +12,20 @@
 
 <script>
 import axios from "axios"
+import {getCookie, setCookie} from "../../../../public/scripts/script";
+
 export default {
   name: "TravelBodyVisited",
   data() {
     return {
       city: "点击获取位置",
       isLoading: false
+    }
+  },
+  mounted() {
+    const _city = getCookie("currCity")
+    if (!!_city) {
+      this.city = _city
     }
   },
   methods: {
@@ -43,6 +51,7 @@ export default {
 
           that.isLoading = false
           that.city = _city
+          setCookie("currCity", _city)
         })
       };
 
