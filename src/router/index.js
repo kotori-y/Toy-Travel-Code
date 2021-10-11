@@ -14,8 +14,9 @@ const router = new VueRouter({
       component: Home,
       name: "home",
       meta: {
-        index: 0
-      }
+        index: 0,
+        notAllowBack: true
+      },
     },
     {
       path: "/agreement",
@@ -41,8 +42,16 @@ const router = new VueRouter({
         index: 0
       }
     }
-  ]
+  ],
 })
 
+router.beforeEach((to, from, next) => {
+  // Redirect if user is disallowed to view the page
+  if (to.meta["notAllowBack"]) {
+    history.pushState(null, null, location.protocol + '//' + location.host + '/#' + to.path)
+  }
+
+  return next()
+})
 
 export default router;
