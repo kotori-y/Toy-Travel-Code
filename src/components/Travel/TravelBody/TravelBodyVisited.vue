@@ -5,8 +5,6 @@
     <ul v-if="!isLoading">
       <li @click="getPosition()">{{ city }}</li>
     </ul>
-
-
   </div>
 </template>
 
@@ -24,7 +22,7 @@ export default {
   },
   mounted() {
     const _city = getCookie("currCity")
-    if (!!_city) {
+    if (_city) {
       this.city = _city
     }
   },
@@ -39,21 +37,27 @@ export default {
           "lon": position.coords.longitude
         }
 
+        const AK = "BUxfI8hTtjSxnEAjvn1hL9GLTr1XpYgX"
+        const LAT = data.lat
+        const LON = data.lon
+        const SHA1 = "D9:CC:18:96:A5:EA:64:48:59:B4:1B:71:54:82:D1:3A:FC:C7:F4:8B"
+        const PACKAGE = "com.travelCard.kotori"
+
+        const URL = `https://api.map.baidu.com/reverse_geocoding/v3/?ak=${AK}&output=json&coordtype=wgs84ll&location=${LAT},${LON}&mcode=${SHA1};${PACKAGE}`
+
         axios({
           method: "get",
-          url: `https://nominatim.openstreetmap.org/reverse?format=jsonv2`,
-          params: data,
+          url: URL,
         }).then(resp => {
-          let _city = resp.data.address["state_district"]
-          if (!_city) {
-            _city = resp.data.address["state"]
-          }
+          let _city = resp.data["result"]["addressComponent"]["city"]
 
           that.isLoading = false
           that.city = _city
-          setCookie("currCity", _city)
-        })
-      };
+          setCookie("git rmcurrCity", _city)
+        }).catch(err => alert(JSON.stringify(err)))
+
+      }
+
 
       function onError(error) {
         alert('code: '    + error.code    + '\n' +
