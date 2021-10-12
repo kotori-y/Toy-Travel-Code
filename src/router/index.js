@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "@/pages/Home";
 import Agreement from "@/pages/ServiceArgeement/Agreement";
 import Policy from "@/pages/PrivacyPolicy/Policy";
+import LogInPage from "@/pages/LogIn/LogInPage";
 
 Vue.use(VueRouter);
 
@@ -11,6 +12,14 @@ const router = new VueRouter({
   routes: [
     {
       path: "/",
+      component: LogInPage,
+      name: "login",
+      meta: {
+        index: 0
+      }
+    },
+    {
+      path: "/home",
       component: Home,
       name: "home",
       meta: {
