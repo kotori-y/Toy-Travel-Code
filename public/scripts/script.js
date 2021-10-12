@@ -1,8 +1,11 @@
 document.addEventListener("deviceready", onDeviceReady, false);
 function onDeviceReady() {
+  // eslint-disable-next-line no-undef
   if (cordova.platformId === "android") {
+    // eslint-disable-next-line no-undef
     StatusBar.overlaysWebView(true);
-    StatusBar.backgroundColorByHexString("#33000000");
+    // eslint-disable-next-line no-undef
+    StatusBar.backgroundColorByHexString("#00000000");
   }
 }
 
