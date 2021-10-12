@@ -2,7 +2,7 @@
   <div class="visited">
     <p class="visited-title">您于前14天内到达或途经：</p>
     <div v-if="isLoading" class="loader"></div>
-    <ul v-if="!isLoading">
+    <ul v-else>
       <li @click="getPosition()">{{ city }}</li>
     </ul>
   </div>
@@ -24,7 +24,9 @@ export default {
     const _city = getCookie("currCity")
     if (_city) {
       this.city = _city
+      return;
     }
+    this.getPosition()
   },
   methods: {
     getPosition() {
@@ -53,15 +55,14 @@ export default {
 
           that.isLoading = false
           that.city = _city
-          setCookie("git rmcurrCity", _city)
+          setCookie("currCity", _city)
         }).catch(err => alert(JSON.stringify(err)))
 
       }
 
 
-      function onError(error) {
-        alert('code: '    + error.code    + '\n' +
-            'message: ' + error.message + '\n');
+      function onError() {
+        that.isLoading = false
       }
 
       const options = {
