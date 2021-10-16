@@ -8,12 +8,11 @@
 <script>
 export default {
   name: "TravelBodyDetail",
-  data() {
-    return {
-      tel: "176****9235"
-    }
-  },
   computed: {
+    tel() {
+      const num = localStorage.getItem("phoneNum")
+      return num.substr(0, 3) + "****" + num.substr(-4, 4)
+    },
     getNowTime() {
 
       const fix = (num) => { return (Array(2).join("0") + num).slice(-2) }

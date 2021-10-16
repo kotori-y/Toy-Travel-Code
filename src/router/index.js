@@ -15,15 +15,20 @@ const router = new VueRouter({
       component: LogInPage,
       name: "login",
       meta: {
-        index: 0
-      }
+        index: 0,
+        notBack: true,
+      },
+      beforeEnter: (to, from, next) => {
+        if (localStorage.getItem("phoneNum")) next({name: "home"});
+        else next();
+      },
     },
     {
       path: "/home",
       component: Home,
       name: "home",
       meta: {
-        index: 0
+        index: 1
       }
     },
     {
@@ -31,7 +36,7 @@ const router = new VueRouter({
       name: "agreement",
       component: Agreement,
       meta: {
-        index: 1
+        index: 2
       }
     },
     {
@@ -39,7 +44,7 @@ const router = new VueRouter({
       name: "policy",
       component: Policy,
       meta: {
-        index: 1
+        index: 2
       }
     },
     {
@@ -53,5 +58,14 @@ const router = new VueRouter({
   ]
 })
 
+router.beforeEach((to, from, next) => {
+
+  if ((to.meta["index"] !== 0) || !from.meta["index"]) {
+    next()
+  }
+
+  window.history.pushState(null, null, location.href)
+
+})
 
 export default router;

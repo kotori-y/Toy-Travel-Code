@@ -1,36 +1,139 @@
 <template>
   <div class="account-container">
     <div class="phoneNumber">
-      <img class="icon" src="../../assets/icon/mobile.svg" alt="">
-      <input type="text" placeholder="手机号">
-      <div class="split" ></div>
-      <div class="obtain"> 获取验证码 </div>
+      <img alt="" class="icon" src="../../assets/icon/mobile.svg">
+      <input v-model="phone_number" placeholder="手机号" type="tel">
+      <div class="split"></div>
+      <div v-if="isSend" class="obtain" style="top: -2vh"> 请在{{ remain }}秒<br>后重试</div>
+      <div v-else :class="{'obtain': true, 'active': phoneFilled}" @click.prevent="send"> 获取验证码</div>
       <div class="under-line"></div>
     </div>
     <div class="verify">
-      <img class="icon" src="../../assets/icon/verify.svg" alt="">
-      <input type="text" placeholder="请输入验证码">
+      <img alt="" class="icon" src="../../assets/icon/verify.svg">
+      <input v-model="verify_code" placeholder="请输入验证码" type="tel">
       <div class="under-line"></div>
-      <img class="icon cancel" src="../../assets/icon/cancel.svg" alt="">
+      <img alt="" class="icon cancel" src="../../assets/icon/cancel.svg" @click="clearCode">
     </div>
-    <div class="check-container">
-      <div>
-        <input class="checkbox" type="checkbox" id="serve1" name="serve1">
-        <label class="serve1" for="serve1">同意并授权运营商查询本人在疫情期间14天内到访地信息</label><br>
-      </div>
-      <div style="position:absolute; top: 2vh">
-        <input class="checkbox" type="checkbox" id="serve2" name="serve2">
-        <label class="serve2" for="serve2">授权系统获取新冠肺炎确诊用户加密ID</label><br>
-      </div>
-    </div>
-    <button class="submit">登陆</button>
+    <LogInTerms @isAgree="isAgree"></LogInTerms>
+    <button :class="{'submit': true, 'active': ava}" @click.prevent="submit">登陆</button>
     <a class="intro" href="javascript:void(0);">行程卡使用说明</a>
+    <FloatMention v-if="isFloat"></FloatMention>
   </div>
 </template>
 
 <script>
+import axios from "axios"
+import LogInTerms from "@/pages/LogIn/LogInTerms";
+import FloatMention from "@/pages/LogIn/FloatMention";
+
 export default {
   name: "LonInAccount",
+  components: {FloatMention, LogInTerms},
+  data() {
+    return {
+      phone_number: "",
+      verify_code: "",
+      isSend: false,
+      isFloat: false,
+      remain: 60,
+      agreed: false,
+      // avaSub: false
+    }
+  },
+  methods: {
+    submit() {
+      if (!this.ava) {
+        return
+      }
+      const form = {
+        phone_number: parseInt(this.phone_number),
+        verify_code: parseInt(this.verify_code)
+      }
+      axios({
+        method: "post",
+        url: "https://api.cbdd.me/verify",
+        data: form
+      }).then(resp => {
+        if (resp.data) {
+          localStorage.setItem("phoneNum", form.phone_number)
+          this.$router.push({name: "home"})
+        }
+      }).catch(err => {
+        alert(JSON.stringify(err))
+      })
+    },
+    clearCode() {
+      this.verify_code = ""
+    },
+    send() {
+      this.isFloat = this.phoneFilled
+      this.isSend = this.phoneFilled
+    },
+    isAgree(cond) {
+      this.agreed = cond
+    },
+    isNumeric(str) {
+      if (typeof str != "string") return false
+      return !isNaN(str) &&
+          !isNaN(parseFloat(str))
+    }
+  },
+  watch: {
+    phone_number(new_num, old_num) {
+      if (!this.isNumeric(new_num) && new_num) {
+        this.phone_number = old_num
+        return;
+      }
+      if (new_num.length > 11) {
+        this.phone_number = new_num.substr(0, 11)
+      }
+    },
+    verify_code(new_num, old_num) {
+      if (!this.isNumeric(new_num) && new_num) {
+        this.verify_code = old_num
+        return;
+      }
+      if (new_num.length > 6) {
+        this.verify_code = new_num.substr(0, 6)
+      }
+    },
+    isFloat(new_val, old_val) {
+      if (new_val && !old_val) {
+        this.floatTask = setTimeout(() => {
+          this.isFloat = false
+        }, 1000)
+      }
+    },
+    isSend(new_val, old_val) {
+      if (new_val && !old_val) {
+        this.sendTask = setInterval(() => {
+          this.remain--
+          if (this.remain === 0) {
+            this.isSend = false
+            this.remain = 60
+            clearInterval(this.sendTask)
+          }
+        }, 1000)
+      }
+    },
+  },
+  computed: {
+    phoneFilled() {
+      return this.phone_number &&
+          this.phone_number.length === 11 &&
+          /^1(3\d|4[5-9]|5[0-35-9]|6[2567]|7[0-8]|8\d|9[0-35-9])\d{8}$/.test(this.phone_number)
+    },
+    ava() {
+      return this.agreed &&
+          this.phone_number && this.phone_number.length === 11 &&
+          this.verify_code && this.verify_code.length === 6
+    },
+  },
+  beforeDestroy() {
+    clearInterval(this.sendTask)
+    clearTimeout(this.floatTask)
+    console.log("go back!")
+  }
 }
 </script>
 
@@ -41,7 +144,7 @@ export default {
   height: 32vh;
   position: absolute;
   top: 22vh;
-  border-radius: 30px;
+  border-radius: 15px;
   box-shadow: 1px 1px 30px #cbcaca;
   width: 84%;
   left: 8vw;
@@ -62,7 +165,7 @@ export default {
 }
 
 .icon {
-  height: 2vh;
+  height: 1.7vh;
   top: 0;
   position: absolute;
 }
@@ -73,7 +176,7 @@ export default {
 
 input {
   height: 2vh;
-  font-size: 2vh;
+  font-size: 1.8vh;
   border: none;
   /* top: 1vh; */
   padding: 0;
@@ -97,7 +200,7 @@ input:focus {
 
 .under-line {
   width: 74vw;
-  height: 2px;
+  height: 1px;
   background: #b6afaf;
   position: absolute;
   left: 0;
@@ -105,11 +208,15 @@ input:focus {
 }
 
 .obtain {
-  font-size: 1.8vh;
+  font-size: 1.7vh;
   left: 53vw;
   position: absolute;
   width: 22vw;
   color: #b6afaf;
+}
+
+.obtain.active {
+  color: rgb(91, 160, 233);
 }
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -126,7 +233,7 @@ input:focus {
 }
 
 .submit {
-  background-color: rgb(119,172,249);
+  background-color: rgb(119, 172, 249);
   border: none;
   color: white;
   padding: 1.1vh 34vw;
@@ -139,34 +246,17 @@ input:focus {
   left: 3vw;
   top: 21vh;
   position: absolute;
-  border-radius: 24px;
+  border-radius: 12px;
 }
 
-.check-container {
-  position: absolute;
-  top: 16vh;
+.submit.active {
+  background: rgb(53, 120, 246);
 }
 
-.checkbox {
-  height: 1vh;
-  width: 1vh;
-  margin-top: 0.3vh;
+.submit:focus {
+  outline: none;
 }
 
-.serve1, .serve2 {
-  left: 6vw;
-  position: absolute;
-  font-size: 1.2vh;
-  color: #b6afaf;
-}
-
-.serve1 {
-  width: 74vw;
-}
-
-.serve2 {
-  width: 53vw;
-}
 
 a.intro {
   position: absolute;
