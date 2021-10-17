@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <img @click.prevent="quit" class=more src="../assets/icon/more.svg" alt="">
     <MainTitle/>
     <TravelIndex/>
     <Notice/>
@@ -20,13 +21,25 @@ export default {
   beforeCreate () {
     document.querySelector('body').setAttribute('style', 'background: #3CAD60')
   },
-  beforeDestroy () {
-    document.querySelector('body').setAttribute('style', 'background: #e3e1e1;')
+  // beforeDestroy () {
+  //   document.querySelector('body').setAttribute('style', 'background: #e3e1e1;')
+  // },
+  methods: {
+    quit() {
+      localStorage.removeItem("phoneNum");
+      this.$router.push({name: "login"})
+    }
   }
 }
 </script>
 
 <style scoped>
 
+.more {
+  position: absolute;
+  top: 5vh;
+  height: 2.5vh;
+  right: 5vw;
+}
 
 </style>

@@ -10,7 +10,10 @@ import MainTitle from "@/components/Title";
 import LonInAccount from "@/pages/LogIn/LonInAccount";
 export default {
   name: "LogInPage",
-  components: {LonInAccount, MainTitle}
+  components: {LonInAccount, MainTitle},
+  beforeCreate () {
+    document.querySelector('body').setAttribute('style', 'background: #FFFFFF')
+  },
 }
 </script>
 

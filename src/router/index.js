@@ -60,7 +60,8 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
 
-  if ((to.meta["index"] !== 0) || !from.meta["index"]) {
+  if ((to.meta["index"] !== 0) || !from.meta["index"] ||
+    (to.meta["index"] === 0 && !localStorage.getItem("phoneNum"))) {
     next()
   }
 
