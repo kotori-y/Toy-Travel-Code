@@ -1,11 +1,12 @@
 <template>
   <div class="home">
-    <img @click.prevent="quit" class=more src="../assets/icon/more.svg" alt="">
+    <img @click.prevent="show" class=more src="../assets/icon/more.svg" alt="">
     <MainTitle/>
     <TravelIndex/>
     <Notice/>
     <Support/>
     <Foot/>
+    <More v-if="showMore"/>
   </div>
 </template>
 
@@ -15,16 +16,25 @@ import TravelIndex from "@/components/Travel/TravelIndex";
 import Notice from "@/components/Notice";
 import Support from "@/components/Footer/Support";
 import Foot from "@/components/Footer/Foot";
+import More from "@/components/More";
 export default {
   name: "Home.vue",
-  components: {Foot, Support, Notice, TravelIndex, MainTitle},
+  components: {More, Foot, Support, Notice, TravelIndex, MainTitle},
   beforeCreate () {
     document.querySelector('body').setAttribute('style', 'background: #3CAD60')
   },
-  // beforeDestroy () {
-  //   document.querySelector('body').setAttribute('style', 'background: #e3e1e1;')
-  // },
+  mounted() {
+    this.$bus.$on("quit", this.quit)
+  },
+  data() {
+    return {
+      showMore: false
+    }
+  },
   methods: {
+    show() {
+      this.showMore = !this.showMore
+    },
     quit() {
       localStorage.removeItem("phoneNum");
       this.$router.push({name: "login"})

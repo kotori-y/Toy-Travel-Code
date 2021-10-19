@@ -27,6 +27,7 @@ export default {
       return;
     }
     this.getPosition()
+    this.$bus.$on("updatePosition", this.getPosition)
   },
   methods: {
     getPosition() {
