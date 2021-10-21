@@ -1,26 +1,28 @@
 <template>
-  <div class="more-container">
-    <div class="triangle"/>
-    <div class="more">
-      <div class="more-icon">
-        <img src="../assets/icon/intro.svg" alt="">
-        <span>使用说明</span>
-      </div>
-      <router-link to="/rule" class="more-icon">
-        <img src="../assets/icon/rule.svg" alt="">
-        <span>色卡规则</span>
-      </router-link>
-      <div @click="update" class="more-icon">
-        <img src="../assets/icon/refresh.svg" alt="">
-        <span>刷新状态</span>
-      </div>
-      <div @click="upload" class="more-icon">
-        <img src="../assets/icon/upload.svg" alt="">
-        <span>数据上传</span>
-      </div>
-      <div @click="quit" class="more-icon">
-        <img src="../assets/icon/exit.svg" alt="">
-        <span>退出登陆</span>
+  <div>
+    <div class="more-container">
+      <div class="triangle"/>
+      <div class="more">
+        <div class="more-icon">
+          <img src="../assets/icon/intro.svg" alt="">
+          <span>使用说明</span>
+        </div>
+        <router-link to="/rule" class="more-icon">
+          <img src="../assets/icon/rule.svg" alt="">
+          <span>色卡规则</span>
+        </router-link>
+        <div @click="update" class="more-icon">
+          <img src="../assets/icon/refresh.svg" alt="">
+          <span>刷新状态</span>
+        </div>
+        <div @click="upload" class="more-icon">
+          <img src="../assets/icon/upload.svg" alt="">
+          <span>数据上传</span>
+        </div>
+        <div @click="queryExit" class="more-icon">
+          <img src="../assets/icon/exit.svg" alt="">
+          <span>退出登陆</span>
+        </div>
       </div>
     </div>
   </div>
@@ -30,8 +32,8 @@
 export default {
   name: "More",
   methods: {
-    quit() {
-      this.$bus.$emit("quit")
+    queryExit() {
+      this.$emit("queryExit")
     },
     update() {
       this.$bus.$emit("updateTime")
