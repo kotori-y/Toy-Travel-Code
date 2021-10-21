@@ -4,7 +4,7 @@
     <MainTitle/>
     <TravelIndex/>
     <Notice/>
-    <Support/>
+    <Support :caift="caift" :telegram="telegram" :mobile="mobile" :unicom="unicom"/>
     <Foot/>
     <More v-if="showMore"/>
   </div>
@@ -28,7 +28,11 @@ export default {
   },
   data() {
     return {
-      showMore: false
+      showMore: false,
+      caift: "caift.png",
+      mobile: "mobile.png",
+      telegram: "telegram.png",
+      unicom: "unicom.png"
     }
   },
   methods: {

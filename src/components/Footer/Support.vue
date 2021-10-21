@@ -5,7 +5,7 @@
       <p class="support-title">本服务联合提供</p>
       <hr class="support-line">
     </div>
-    <Service/>
+    <Service :caift="caift" :telegram="telegram" :mobile="mobile" :unicom="unicom"/>
   </div>
 </template>
 
@@ -13,7 +13,8 @@
 import Service from "@/components/Footer/Service";
 export default {
   name: "Support",
-  components: {Service}
+  components: {Service},
+  props: ["caift", "telegram", "mobile", "unicom"]
 }
 </script>
 

@@ -1,15 +1,16 @@
 <template>
   <div class="service-container">
-    <img class="service" src="../../assets/icon/caift.png" alt="caift">
-    <img class="service-" src="../../assets/icon/telegram.png" alt="telegram">
-    <img class="service-" src="../../assets/icon/mobile.png" alt="mobile">
-    <img class="service-" src="../../assets/icon/unicom.png" alt="unicom">
+    <img class="service" :src="require(`@/assets/icon/${caift}`)" alt="caift">
+    <img class="service-" :src="require(`@/assets/icon/${telegram}`)" alt="telegram">
+    <img class="service-" :src="require(`@/assets/icon/${mobile}`)" alt="mobile">
+    <img class="service-" :src="require(`@/assets/icon/${unicom}`)" alt="unicom">
   </div>
 </template>
 
 <script>
 export default {
-  name: "Service"
+  name: "Service",
+  props: ["caift", "telegram", "mobile", "unicom"]
 }
 </script>
 

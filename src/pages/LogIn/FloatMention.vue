@@ -1,12 +1,18 @@
 <template>
   <div class="floatWin">
-    短信发送中，注意查收
+    {{ msg }}
   </div>
 </template>
 
 <script>
 export default {
-  name: "FloatMention"
+  name: "FloatMention",
+  props: {
+    msg: {
+      type: String,
+      default: "短信发送中，注意查收"
+    }
+  }
 }
 </script>
 
