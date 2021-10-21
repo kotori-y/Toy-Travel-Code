@@ -30,6 +30,10 @@ const router = new VueRouter({
       name: "home",
       meta: {
         index: 1
+      },
+      beforeEnter: (to, form, next ) => {
+        if (!localStorage.getItem("phoneNum")) {next({ name: "login" })}
+        else next()
       }
     },
     {
