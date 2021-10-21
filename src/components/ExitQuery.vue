@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="query-exit"/>
-    <button @click.prevent="quit" id="exit">退出登陆</button>
+    <button @click.prevent="quit" id="exit">退出登录</button>
     <button @click.prevent="cancel" id="cancel">取消</button>
   </div>
 
