@@ -21,7 +21,7 @@
         </div>
         <div @click="queryExit" class="more-icon">
           <img src="../assets/icon/exit.svg" alt="">
-          <span>退出登陆</span>
+          <span>退出登录</span>
         </div>
       </div>
     </div>
