@@ -23,7 +23,7 @@
       <img alt="" class="icon cancel" src="../../assets/icon/cancel.svg" @click="clearCode">
     </div>
     <LogInTerms @isAgree="isAgree"></LogInTerms>
-    <button :class="{'submit': true, 'active': ava}" @click.prevent="submit">登陆</button>
+    <button :class="{'submit': true, 'active': ava}" @click.prevent="submit">登录</button>
     <a class="intro" href="javascript:void(0);">行程卡使用说明</a>
     <FloatMention v-if="showFloat" :msg="floatMsg"></FloatMention>
     <Support :caift="caift" :telegram="telegram" :mobile="mobile" :unicom="unicom"/>
