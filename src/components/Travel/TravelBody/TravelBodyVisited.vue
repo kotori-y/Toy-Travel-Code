@@ -56,13 +56,23 @@ export default {
           let _city = resp.data["result"]["addressComponent"]["city"]
 
           that.isLoading = false
-          that.city = _city
-          if (province !== that.city) {
-            that.city = province.concat(that.city)
+          if (province !== _city) {
+            _city = province.concat(_city)
           }
-          setCookie("currCity", _city)
+          return _city
+        }).then(_city => {
+          axios({
+            method: "get",
+            url: "https://api.cbdd.me/risk/",
+            params: {city: _city}
+          }).then(resp => {
+            if (resp.data) {
+              _city = _city.concat("*")
+            }
+            that.city = _city
+            setCookie("currCity", _city)
+          })
         }).catch(err => alert(JSON.stringify(err)))
-
       }
 
 
