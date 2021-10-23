@@ -52,10 +52,14 @@ export default {
           method: "get",
           url: URL,
         }).then(resp => {
+          let province = resp.data["result"]["addressComponent"]["province"]
           let _city = resp.data["result"]["addressComponent"]["city"]
 
           that.isLoading = false
           that.city = _city
+          if (province !== that.city) {
+            that.city = province.concat(that.city)
+          }
           setCookie("currCity", _city)
         }).catch(err => alert(JSON.stringify(err)))
 
