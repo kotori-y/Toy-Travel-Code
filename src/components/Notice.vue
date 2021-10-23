@@ -17,7 +17,7 @@ export default {
 
 .notice {
   position: absolute;
-  top: 59.5vh;
+  top: 60.5vh;
   font-size: 2.5vw;
   max-width: 86%;
   text-align: center;

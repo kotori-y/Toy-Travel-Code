@@ -18,7 +18,7 @@ export default {
 
 .service-container {
   position: absolute;
-  top: 73vh;
+  top: 74vh;
   width: 78%;
   display: flex;
   justify-content: space-evenly;

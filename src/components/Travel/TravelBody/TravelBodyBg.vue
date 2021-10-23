@@ -23,7 +23,7 @@ export default {
   position: absolute;
   width: 100%;
   top: 3.8vh;
-  height: 36.2vh;
+  height: 37.2vh;
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
 }

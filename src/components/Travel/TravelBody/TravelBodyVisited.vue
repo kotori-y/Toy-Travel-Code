@@ -2,9 +2,9 @@
   <div class="visited">
     <p class="visited-title">您于前14天内到达或途经：</p>
     <div v-if="isLoading" class="loader"></div>
-    <ul v-else>
-      <li @click="getPosition()">{{ city }}</li>
-    </ul>
+    <span v-else @click="getPosition()">
+     {{ city }}
+    </span>
   </div>
 </template>
 
@@ -114,20 +114,19 @@ export default {
 
 .visited-title {
   margin: 0;
-  font-size: 1.8vh;
+  font-size: 1.5vh;
   font-weight: 400;
-  color: rgb(178,179,184);
+  color: rgb(178, 179, 184);
   text-align: left;
   display: inline-block;
 }
 
-ul {
+span {
   margin: 0;
   padding: 0;
   list-style-type: none;
-  font-size: 1.8vh;
+  font-size: 1.5vh;
   font-weight: bolder;
-  display: inline-block;
 }
 
 .loader {
@@ -142,13 +141,21 @@ ul {
 }
 
 @-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 </style>

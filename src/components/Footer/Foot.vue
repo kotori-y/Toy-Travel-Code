@@ -12,11 +12,6 @@
 <script>
 export default {
   name: "Foot",
-  methods: {
-    bar() {
-      console.log(456)
-    }
-  }
 }
 </script>
 
@@ -25,7 +20,7 @@ export default {
 .foot {
   position: absolute;
   width: 100%;
-  top: 76vh;
+  top: 77vh;
   color: white;
   font-size: 1.6vh;
   font-weight: bolder;

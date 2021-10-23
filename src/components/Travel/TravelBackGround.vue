@@ -22,7 +22,7 @@ export default {
 .background {
   position: relative;
   border-radius: 10px;
-  height: 40vh;
+  height: 41vh;
   width: 87vw;
   background: rgb(217,236,226);
   display: inline-block;
