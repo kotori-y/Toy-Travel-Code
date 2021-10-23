@@ -30,49 +30,58 @@ export default {
     this.$bus.$on("updatePosition", this.getPosition)
   },
   methods: {
+    async coor2city(LAT, LON) {
+      let that = this
+      const AK = "BUxfI8hTtjSxnEAjvn1hL9GLTr1XpYgX"
+      const SHA1 = "D9:CC:18:96:A5:EA:64:48:59:B4:1B:71:54:82:D1:3A:FC:C7:F4:8B"
+      const PACKAGE = "com.travelCard.kotori"
+
+      const URL = `https://api.map.baidu.com/reverse_geocoding/v3/?ak=${AK}&output=json&coordtype=wgs84ll&location=${LAT},${LON}&mcode=${SHA1};${PACKAGE}`
+
+      return await axios({
+        method: "get",
+        url: URL,
+      }).then(resp => {
+        let province = resp.data["result"]["addressComponent"]["province"]
+        let _city = resp.data["result"]["addressComponent"]["city"]
+
+        that.isLoading = false
+        if (province !== _city) {
+          _city = province.concat(_city)
+        }
+        return _city
+      })
+    },
+    async checkCityRisk(city) {
+      const url = "https://api.cbdd.me/risk/"
+      const params = {city: city}
+
+      return await axios({
+        method: "get",
+        url: url,
+        params: params
+      }).then(resp => resp.data)
+
+    },
     getPosition() {
       let that = this
       that.isLoading = true
 
-      const onSuccess = function (position) {
+      async function onSuccess (position) {
         const data = {
           "lat": position.coords.latitude,
           "lon": position.coords.longitude
         }
 
-        const AK = "BUxfI8hTtjSxnEAjvn1hL9GLTr1XpYgX"
-        const LAT = data.lat
-        const LON = data.lon
-        const SHA1 = "D9:CC:18:96:A5:EA:64:48:59:B4:1B:71:54:82:D1:3A:FC:C7:F4:8B"
-        const PACKAGE = "com.travelCard.kotori"
+        let city = await that.coor2city(data.lat, data.lon)
+        const risk = await that.checkCityRisk(city)
 
-        const URL = `https://api.map.baidu.com/reverse_geocoding/v3/?ak=${AK}&output=json&coordtype=wgs84ll&location=${LAT},${LON}&mcode=${SHA1};${PACKAGE}`
+        if (risk) {
+          city = city.concat("*(注:*表示当前该城市存在中风险或高风险地区，并不代表用户实际到访过这些中高风险地区。)")
+        }
 
-        axios({
-          method: "get",
-          url: URL,
-        }).then(resp => {
-          let province = resp.data["result"]["addressComponent"]["province"]
-          let _city = resp.data["result"]["addressComponent"]["city"]
-
-          that.isLoading = false
-          if (province !== _city) {
-            _city = province.concat(_city)
-          }
-          return _city
-        }).then(_city => {
-          axios({
-            method: "get",
-            url: "https://api.cbdd.me/risk/",
-            params: {city: _city}
-          }).then(resp => {
-            if (resp.data) {
-              _city = _city.concat("*")
-            }
-            that.city = _city
-            setCookie("currCity", _city)
-          })
-        }).catch(err => alert(JSON.stringify(err)))
+        that.city = city
+        setCookie("currCity", city)
       }
 
 

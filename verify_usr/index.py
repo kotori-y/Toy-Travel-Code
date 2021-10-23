@@ -18,7 +18,8 @@ app.add_middleware(  # 添加中间件
 @app.on_event('startup')
 async def startup_event():
     app.state.usr = await aioredis.create_redis_pool(('127.0.0.1', 0000), db=0, password="foobar")
-    app.state.attemptTime = await aioredis.create_redis_pool(('127.0.0.1', 000), db=1, password="foobar")
+    app.state.attemptTime = await aioredis.create_redis_pool(('127.0.0.1', 0000), db=1, password="foobar")
+    app.state.risk = await aioredis.create_redis_pool(('127.0.0.1', 0000), db=2, password="foobar")
 
 
 @app.get("/")
@@ -50,6 +51,12 @@ async def verify_usr(form: VerifyItem):
             await app.state.attemptTime.delete(phone_num)
 
     return False
+
+
+@app.get("/risk/")
+async def check_risk(city):
+    return await app.state.risk.exists("risk") and \
+           await app.state.risk.sismember("risk", city)
 
 
 if __name__ == "__main__":
