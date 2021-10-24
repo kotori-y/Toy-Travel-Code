@@ -5,6 +5,7 @@ import Agreement from "@/pages/ServiceArgeement/Agreement";
 import Policy from "@/pages/PrivacyPolicy/Policy";
 import LogInPage from "@/pages/LogIn/LogInPage";
 import CardRule from "@/pages/CardRule/CardRule";
+import IntroIndex from "@/pages/Introduction/IntroIndex";
 
 Vue.use(VueRouter);
 
@@ -57,6 +58,14 @@ const router = new VueRouter({
       name: "rule",
       component: CardRule,
       mata: {
+        index: 2
+      }
+    },
+    {
+      path: "/intro",
+      name: "intro",
+      component: IntroIndex,
+      meta: {
         index: 2
       }
     },

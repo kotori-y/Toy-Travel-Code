@@ -3,7 +3,7 @@
     <div class="more-container">
       <div class="triangle"/>
       <div class="more">
-        <div class="more-icon">
+        <div class="more-icon" @click="$router.push({name: 'intro'})">
           <img src="../assets/icon/intro.svg" alt="">
           <span>使用说明</span>
         </div>
